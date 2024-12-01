@@ -21,8 +21,8 @@ namespace AdventOfCode
             // TODO: automatically pick the day class
             var optionSet = new OptionSet {
                 { "i|inputFileName=",       "the input file name",          i => inputFileName = i },
-                { "d|day=",             "the day to run",               d => day = d },
-                { "v|verbose",          "print debug logs",             v => { if (v != null) printDebugLogs = true; } },
+                { "d|day=",                 "the day to run",               d => day = d },
+                { "v|verbose",              "print debug logs",             v => { if (v != null) printDebugLogs = true; } },
             };
 
             List<string> extra;
