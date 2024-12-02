@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     public class Day2
     {
@@ -35,6 +29,7 @@ namespace AdventOfCode
                 }
                 else
                 {
+                    var isSafe = false;
                     // try rerunning the report with one level missing and see if any of those are safe
                     for (int i = 0; i < levels.Count; i++)
                     {
@@ -42,9 +37,14 @@ namespace AdventOfCode
                         newLevels.RemoveAt(i);
                         if (ProcessReport(newLevels))
                         {
+                            isSafe = true;
                             safeReports++;
                             break;
                         }
+                    }
+                    if (!isSafe)
+                    {
+                        Console.WriteLine(report);
                     }
                 }
             }

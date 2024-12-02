@@ -45,7 +45,7 @@ namespace AdventOfCode
             Console.WriteLine($"Reading file: {inputFilePath}");
             var fileLines = ReadFile(inputFilePath);
 
-            Console.WriteLine($"Solution: {Day2.Part2(fileLines)}");
+            Console.WriteLine($"Solution: {Day3.Part1(fileLines)}");
         }
 
         public static void PrintDebugLog(string lineToPrint)
