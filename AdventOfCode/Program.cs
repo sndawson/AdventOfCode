@@ -45,7 +45,7 @@ namespace AdventOfCode
             Console.WriteLine($"Reading file: {inputFilePath}");
             var fileLines = ReadFile(inputFilePath);
 
-            Console.WriteLine($"Solution: {Day1.CalculateTotalSimilarityScore(fileLines)}");
+            Console.WriteLine($"Solution: {Day2.Part2(fileLines)}");
         }
 
         public static void PrintDebugLog(string lineToPrint)

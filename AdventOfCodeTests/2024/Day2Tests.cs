@@ -1,10 +1,10 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
-    public class Day1Tests
+    public class Day2Tests
     {
         [SetUp]
         public void Setup()
@@ -13,12 +13,12 @@ namespace AdventOfCodeTests
 
         private static List<string> sampleInput = new List<string>
         {
-            "3   4",
-            "4   3",
-            "2   5",
-            "1   3",
-            "3   9",
-            "3   3"
+            "7 6 4 2 1",
+            "1 2 7 8 9",
+            "9 7 6 2 1",
+            "1 3 2 4 5",
+            "8 6 4 4 1",
+            "1 3 6 7 9"
         };
 
         private static readonly object[] inputTestCasesPart1 =
@@ -26,7 +26,7 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput,
-                11
+                2
             },
         };
 
@@ -35,20 +35,20 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput,
-                31
+                4
             },
         };
 
         [TestCaseSource("inputTestCasesPart1")]
         public void CalculateTotalDistance(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day1.CalculateTotalDistance(input));
+            Assert.AreEqual(solution, Day2.Part1(input));
         }
 
         [TestCaseSource("inputTestCasesPart2")]
         public void CalculateTotalSimilarityScore(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day1.CalculateTotalSimilarityScore(input));
+            Assert.AreEqual(solution, Day2.Part2(input));
         }
     }
 }
