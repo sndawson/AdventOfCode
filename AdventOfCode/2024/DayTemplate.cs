@@ -1,13 +1,13 @@
-﻿namespace AdventOfCode
+﻿namespace AdventOfCode._2024
 {
-    public class DayTemplate
+    public class DayTemplate : IDay
     {
-        public static int Part1(List<string> input)
+        public int Part1(List<string> input)
         {
             return 0;
         }
 
-        public static int Part2(List<string> input)
+        public int Part2(List<string> input)
         {
             return 0;
         }

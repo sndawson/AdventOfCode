@@ -1,11 +1,14 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using AdventOfCode._2024;
 using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
     public class Day3Tests
     {
+        readonly IDay day = new Day3();
+
         [SetUp]
         public void Setup()
         {
@@ -42,13 +45,13 @@ namespace AdventOfCodeTests
         [TestCaseSource("inputTestCasesPart1")]
         public void TestPart1(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day3.Part1(input));
+            Assert.AreEqual(solution, day.Part1(input));
         }
 
         [TestCaseSource("inputTestCasesPart2")]
         public void TestPart2(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day3.Part2(input));
+            Assert.AreEqual(solution, day.Part2(input));
         }
     }
 }

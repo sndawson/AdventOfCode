@@ -1,8 +1,8 @@
-﻿namespace AdventOfCode
+﻿namespace AdventOfCode._2024
 {
-    public class Day2
+    public class Day2 : IDay
     {
-        public static int Part1(List<string> input)
+        public int Part1(List<string> input)
         {
             var safeReports = 0;
             foreach (var report in input)
@@ -17,7 +17,7 @@
             return safeReports;
         }
 
-        public static int Part2(List<string> input)
+        public int Part2(List<string> input)
         {
             var safeReports = 0;
             foreach (var report in input)
@@ -29,7 +29,6 @@
                 }
                 else
                 {
-                    var isSafe = false;
                     // try rerunning the report with one level missing and see if any of those are safe
                     for (int i = 0; i < levels.Count; i++)
                     {
@@ -37,14 +36,9 @@
                         newLevels.RemoveAt(i);
                         if (ProcessReport(newLevels))
                         {
-                            isSafe = true;
                             safeReports++;
                             break;
                         }
-                    }
-                    if (!isSafe)
-                    {
-                        Console.WriteLine(report);
                     }
                 }
             }

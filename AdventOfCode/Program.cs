@@ -1,6 +1,5 @@
 ﻿using Mono.Options;
-using System.Diagnostics;
-using System.Reflection;
+using AdventOfCode._2024;
 
 namespace AdventOfCode
 {
@@ -16,12 +15,10 @@ namespace AdventOfCode
         {
             string inputFilePath = "";
             string inputFileName = "";
-            string day = "";
+            int dayNum;
 
-            // TODO: automatically pick the day class
             var optionSet = new OptionSet {
                 { "i|inputFileName=",       "the input file name",          i => inputFileName = i },
-                { "d|day=",                 "the day to run",               d => day = d },
                 { "v|verbose",              "print debug logs",             v => { if (v != null) printDebugLogs = true; } },
             };
 
@@ -38,14 +35,19 @@ namespace AdventOfCode
                 return;
             }
 
-            if (string.IsNullOrEmpty(inputFilePath))
-            {
-                inputFilePath = GetInputFilePath();
-            }
+            dayNum = GetDay();
+            inputFilePath = GetInputFilePath(dayNum);
+
             Console.WriteLine($"Reading file: {inputFilePath}");
             var fileLines = ReadFile(inputFilePath);
 
-            Console.WriteLine($"Solution: {Day3.Part1(fileLines)}");
+            string objectToInstantiate = $"AdventOfCode._2024.Day{dayNum}, AdventOfCode";
+            var objectType = Type.GetType(objectToInstantiate);
+            dynamic dayClass = Activator.CreateInstance(objectType) as IDay;
+
+            // TODO: time how long each part takes
+            Console.WriteLine($"Part 1: {dayClass.Part1(fileLines)}");
+            Console.WriteLine($"Part 2: {dayClass.Part2(fileLines)}");
         }
 
         public static void PrintDebugLog(string lineToPrint)
@@ -56,11 +58,24 @@ namespace AdventOfCode
             }
         }
 
-        static string GetInputFilePath()
+        static int GetDay()
         {
-            Console.WriteLine("Enter input file name:");
-            var inputFileName = @"" + Console.ReadLine();
-            var inputFilePath = $"C:\\Users\\Shawna\\Documents\\Programming\\Coding Challenges\\AdventOfCode\\AdventOfCode\\2024\\InputFiles\\{inputFileName}.txt";
+            Console.WriteLine("Enter the number of the day of the challenge (ex. 1):");
+            var dayStr = @"" + Console.ReadLine();
+            int day;
+            if (int.TryParse(dayStr, out day))
+            {
+                return day;
+            }
+            else
+            {
+                throw new Exception($"`{dayStr}` was not a number");
+            }
+        }
+
+        static string GetInputFilePath(int dayNum)
+        {
+            var inputFilePath = $"C:\\Users\\Shawna\\Documents\\Programming\\Coding Challenges\\AdventOfCode\\AdventOfCode\\2024\\InputFiles\\day{dayNum}.txt";
 
             if (File.Exists(inputFilePath))
             {

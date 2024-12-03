@@ -1,11 +1,14 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using AdventOfCode;
+using AdventOfCode._2024;
 
 namespace AdventOfCodeTests
 {
     public class Day1Tests
     {
+        readonly IDay day = new Day1();
+
         [SetUp]
         public void Setup()
         {
@@ -42,13 +45,13 @@ namespace AdventOfCodeTests
         [TestCaseSource("inputTestCasesPart1")]
         public void CalculateTotalDistance(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day1.CalculateTotalDistance(input));
+            Assert.AreEqual(solution, day.Part1(input));
         }
 
         [TestCaseSource("inputTestCasesPart2")]
         public void CalculateTotalSimilarityScore(List<string> input, int solution)
         {
-            Assert.AreEqual(solution, Day1.CalculateTotalSimilarityScore(input));
+            Assert.AreEqual(solution, day.Part2(input));
         }
     }
 }

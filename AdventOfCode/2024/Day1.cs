@@ -1,10 +1,9 @@
-﻿
-namespace AdventOfCode
+﻿namespace AdventOfCode._2024
 {
-    public class Day1
+    public class Day1 : IDay
     {
 
-        public static int CalculateTotalDistance(List<string> input)
+        public int Part1(List<string> input)
         {
             List<int> list1;
             List<int> list2;
@@ -32,7 +31,7 @@ namespace AdventOfCode
             return totalDistance;
         }
 
-        public static int CalculateTotalSimilarityScore(List<string> input)
+        public int Part2(List<string> input)
         {
             // not doing the most efficient solution to start
             List<int> list1;
