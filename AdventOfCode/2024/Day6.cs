@@ -15,7 +15,7 @@
             var i = guardCoordinates.Item1;
             var j = guardCoordinates.Item2;
             var guardDirection = input[i][j];
-            while (i < input.Count && i > 0 && j < input[j].Length && j > 0)
+            while (true)
             {
                 // first mark that we've been here
                 trackingBoard[i][j] = 'X';
