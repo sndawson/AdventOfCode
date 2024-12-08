@@ -21,8 +21,6 @@
                 for (int i = 0; i < locationList.Count; i++)
                 {
                     var nodeA = locationList[i];
-                    var t1 = i + 1;
-                    var t2 = locationList.Count - 1;
                     var remainingNodes = locationList.GetRange(i + 1, locationList.Count - (i + 1));
                     foreach (var nodeB in remainingNodes)
                     {
@@ -34,16 +32,13 @@
 
                         if (WithinBounds(antiNode1, iMax, jMax))
                         {
-                            if (!antinodeLocations.Add(antiNode1))
-                                Console.WriteLine($"Duplicate node: {antiNode1}");
+                            antinodeLocations.Add(antiNode1);
                         }
                         if (WithinBounds(antiNode2, iMax, jMax))
                         {
-                            if (!antinodeLocations.Add(antiNode2))
-                                Console.WriteLine($"Duplicate node: {antiNode2}");
+                            antinodeLocations.Add(antiNode2);
                         }
                     }
-
                 }
             }
 
@@ -75,8 +70,6 @@
                 {
                     antinodeLocations.Add(locationList[i]);
                     var nodeA = locationList[i];
-                    var t1 = i + 1;
-                    var t2 = locationList.Count - 1;
                     var remainingNodes = locationList.GetRange(i + 1, locationList.Count - (i + 1));
                     foreach (var nodeB in remainingNodes)
                     {
@@ -102,7 +95,6 @@
                             multiplier++;
                         }
                     }
-
                 }
             }
 
