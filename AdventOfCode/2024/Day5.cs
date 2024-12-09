@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode._2024
 {
@@ -15,9 +16,8 @@ namespace AdventOfCode._2024
                 {
                     // done processing rules, updates come next
                     processRules = false;
-                    continue;
                 }
-                if (processRules)
+                else if (processRules)
                 {
                     var pageNumbers = line.Split('|');
                     if (rules.ContainsKey(pageNumbers[0]))
@@ -53,9 +53,8 @@ namespace AdventOfCode._2024
                 {
                     // done processing rules, updates come next
                     processRules = false;
-                    continue;
                 }
-                if (processRules)
+                else if (processRules)
                 {
                     var pageNumbers = line.Split('|');
                     if (rules.ContainsKey(pageNumbers[0]))
@@ -72,8 +71,8 @@ namespace AdventOfCode._2024
                     var update = line.Split(',').ToList();
                     if (!IsValidUpadate(update, rules))
                     {
-                        var fixedOrder = FixOrdering(update, rules);
-                        result += int.Parse(GetMiddleValue(fixedOrder));
+                        FixOrdering(update, rules);
+                        result += int.Parse(GetMiddleValue(update));
                     }
                 }
             }
@@ -109,7 +108,20 @@ namespace AdventOfCode._2024
 
         private static List<string> FixOrdering(List<string> inputList, Dictionary<string, List<string>> rules)
         {
-            // TODO
+            for (int i = 0; i < inputList.Count; i++)
+            {
+                for (int j = i; j < inputList.Count; j++)
+                {
+                    if (rules.ContainsKey(inputList[j]) && rules[inputList[j]].Contains(inputList[i]))
+                    {
+                        var first = inputList[j];
+                        var second = inputList[i];
+                        inputList[j] = second;
+                        inputList[i] = first;
+                    }
+                }
+            }
+
             return inputList;
         }
     }

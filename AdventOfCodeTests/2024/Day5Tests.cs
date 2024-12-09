@@ -14,7 +14,7 @@ namespace AdventOfCodeTests
         {
         }
 
-        private static List<string> sampleInput1 = new List<string>
+        private static List<string> sampleInput = new List<string>
         {
             "47|53",
             "97|13",
@@ -46,16 +46,11 @@ namespace AdventOfCodeTests
             "97,13,75,29,47",
         };
 
-        private static List<string> sampleInput2 = new List<string>
-        {
-            ""
-        };
-
         private static readonly object[] inputTestCasesPart1 =
         {
             new object[]
             {
-                sampleInput1,
+                sampleInput,
                 143
             },
         };
@@ -64,8 +59,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput2,
-                0
+                sampleInput,
+                123
             },
         };
 
