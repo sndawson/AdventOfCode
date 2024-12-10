@@ -11,7 +11,7 @@
                 {
                     if (input[i][j] == '0')
                     {
-                        var trailHeadScore = DistinctReachableNines(input, (i, j)).Count;
+                        var trailHeadScore = ReachableNines(input, (i, j)).Distinct().Count();
                         sumOfTrailheadScores += trailHeadScore;
                     }
                 }
@@ -28,7 +28,7 @@
                 {
                     if (input[i][j] == '0')
                     {
-                        var trailHeadScore = TotalReachableNines(input, (i, j)).Count;
+                        var trailHeadScore = ReachableNines(input, (i, j)).Count;
                         sumOfTrailheadScores += trailHeadScore;
                     }
                 }
@@ -36,35 +36,7 @@
             return sumOfTrailheadScores;
         }
 
-        private static List<(int,int)> DistinctReachableNines(List<string> map, (int,int) currentPosition)
-        {
-            var reachableNines = new List<(int,int)> { };
-            var currentHeight = int.Parse(map[currentPosition.Item1][currentPosition.Item2].ToString());
-            if (currentHeight == 9)
-            {
-                reachableNines.Add(currentPosition);
-                return reachableNines;
-            }
-
-            var neighbours = GetNeighbours(currentPosition, map.Count, map[0].Length);
-            
-            foreach (var neighbour in neighbours)
-            {
-                var neighbourHeight = int.Parse(map[neighbour.Item1][neighbour.Item2].ToString());
-                if (neighbourHeight == currentHeight + 1)
-                {
-                    var reachableNinesFromNeighbour = DistinctReachableNines(map, neighbour);
-                    if (reachableNinesFromNeighbour.Count != 0)
-                    {
-                        reachableNines.AddRange(reachableNinesFromNeighbour);
-                    }
-                }
-            }
-
-            return reachableNines.Distinct().ToList();
-        }
-
-        private static List<(int, int)> TotalReachableNines(List<string> map, (int, int) currentPosition)
+        private static List<(int, int)> ReachableNines(List<string> map, (int, int) currentPosition)
         {
             var reachableNines = new List<(int, int)> { };
             var currentHeight = int.Parse(map[currentPosition.Item1][currentPosition.Item2].ToString());
@@ -81,7 +53,7 @@
                 var neighbourHeight = int.Parse(map[neighbour.Item1][neighbour.Item2].ToString());
                 if (neighbourHeight == currentHeight + 1)
                 {
-                    var reachableNinesFromNeighbour = TotalReachableNines(map, neighbour);
+                    var reachableNinesFromNeighbour = ReachableNines(map, neighbour);
                     if (reachableNinesFromNeighbour.Count != 0)
                     {
                         reachableNines.AddRange(reachableNinesFromNeighbour);
