@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode._2024
 {
-    public class Day9 : IDay
+    public class Day09 : IDay
     {
         private int freeSpaceId = -1;
 

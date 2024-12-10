@@ -1,35 +1,44 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using AdventOfCode;
 using AdventOfCode._2024;
+using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
-    public class Day2Tests
+    public class Day04Tests
     {
-        readonly IDay day = new Day2();
+        readonly IDay day = new Day04();
 
         [SetUp]
         public void Setup()
         {
         }
 
-        private static List<string> sampleInput = new List<string>
+        private static List<string> sampleInput1 = new List<string>
         {
-            "7 6 4 2 1",
-            "1 2 7 8 9",
-            "9 7 6 2 1",
-            "1 3 2 4 5",
-            "8 6 4 4 1",
-            "1 3 6 7 9"
+            "MMMSXXMASM",
+            "MSAMXMSMSA",
+            "AMXSXMAAMM",
+            "MSAMASMSMX",
+            "XMASAMXAMM",
+            "XXAMMXXAMA",
+            "SMSMSASXSS",
+            "SAXAMASAAA",
+            "MAMMMXMMMM",
+            "MXMXAXMASX",
+        };
+
+        private static List<string> sampleInput2 = new List<string>
+        {
+            ""
         };
 
         private static readonly object[] inputTestCasesPart1 =
         {
             new object[]
             {
-                sampleInput,
-                2
+                sampleInput1,
+                18
             },
         };
 
@@ -37,8 +46,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput,
-                4
+                sampleInput2,
+                0
             },
         };
 

@@ -1,35 +1,35 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using AdventOfCode._2024;
 using AdventOfCode;
+using AdventOfCode._2024;
 
 namespace AdventOfCodeTests
 {
-    public class Day3Tests
+    public class Day02Tests
     {
-        readonly IDay day = new Day3();
+        readonly IDay day = new Day02();
 
         [SetUp]
         public void Setup()
         {
         }
 
-        private static List<string> sampleInput1 = new List<string>
+        private static List<string> sampleInput = new List<string>
         {
-            "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))",
-        };
-
-        private static List<string> sampleInput2 = new List<string>
-        {
-            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+            "7 6 4 2 1",
+            "1 2 7 8 9",
+            "9 7 6 2 1",
+            "1 3 2 4 5",
+            "8 6 4 4 1",
+            "1 3 6 7 9"
         };
 
         private static readonly object[] inputTestCasesPart1 =
         {
             new object[]
             {
-                sampleInput1,
-                161
+                sampleInput,
+                2
             },
         };
 
@@ -37,8 +37,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput2,
-                48
+                sampleInput,
+                4
             },
         };
 

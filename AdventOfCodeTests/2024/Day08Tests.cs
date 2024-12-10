@@ -5,40 +5,37 @@ using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
-    public class Day4Tests
+    public class Day08Tests
     {
-        readonly IDay day = new Day4();
+        readonly IDay day = new Day08();
 
         [SetUp]
         public void Setup()
         {
         }
 
-        private static List<string> sampleInput1 = new List<string>
+        private static List<string> sampleInput = new List<string>
         {
-            "MMMSXXMASM",
-            "MSAMXMSMSA",
-            "AMXSXMAAMM",
-            "MSAMASMSMX",
-            "XMASAMXAMM",
-            "XXAMMXXAMA",
-            "SMSMSASXSS",
-            "SAXAMASAAA",
-            "MAMMMXMMMM",
-            "MXMXAXMASX",
-        };
-
-        private static List<string> sampleInput2 = new List<string>
-        {
-            ""
+            "............",
+            "........0...",
+            ".....0......",
+            ".......0....",
+            "....0.......",
+            "......A.....",
+            "............",
+            "............",
+            "........A...",
+            ".........A..",
+            "............",
+            "............",
         };
 
         private static readonly object[] inputTestCasesPart1 =
         {
             new object[]
             {
-                sampleInput1,
-                18
+                sampleInput,
+                14
             },
         };
 
@@ -46,8 +43,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput2,
-                0
+                sampleInput,
+                34
             },
         };
 

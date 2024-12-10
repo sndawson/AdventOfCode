@@ -5,14 +5,24 @@ using AdventOfCode._2024;
 
 namespace AdventOfCodeTests
 {
-    public class Day1Tests
+    public class Day01Tests
     {
-        readonly IDay day = new Day1();
+        readonly IDay day = new Day01();
 
         [SetUp]
         public void Setup()
         {
         }
+
+        private static string sampleInputString = @"
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+            ";
+        
 
         private static List<string> sampleInput = new List<string>
         {

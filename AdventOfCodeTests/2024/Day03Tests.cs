@@ -5,9 +5,9 @@ using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
-    public class Day9Tests
+    public class Day03Tests
     {
-        readonly IDay day = new Day9();
+        readonly IDay day = new Day03();
 
         [SetUp]
         public void Setup()
@@ -16,12 +16,12 @@ namespace AdventOfCodeTests
 
         private static List<string> sampleInput1 = new List<string>
         {
-            "2333133121414131402",
+            "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))",
         };
 
         private static List<string> sampleInput2 = new List<string>
         {
-            "12345"
+            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
         };
 
         private static readonly object[] inputTestCasesPart1 =
@@ -29,12 +29,7 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput1,
-                1928
-            },
-            new object[]
-            {
-                sampleInput2,
-                60
+                161
             },
         };
 
@@ -42,8 +37,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput1,
-                2858
+                sampleInput2,
+                48
             },
         };
 

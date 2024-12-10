@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode._2024
 {
-    public class Day7 : IDay
+    public class Day07 : IDay
     {
         public int Part1(List<string> input)
         {

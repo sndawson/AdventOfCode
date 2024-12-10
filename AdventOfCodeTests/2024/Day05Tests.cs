@@ -5,9 +5,9 @@ using AdventOfCode;
 
 namespace AdventOfCodeTests
 {
-    public class Day8Tests
+    public class Day05Tests
     {
-        readonly IDay day = new Day8();
+        readonly IDay day = new Day05();
 
         [SetUp]
         public void Setup()
@@ -16,18 +16,34 @@ namespace AdventOfCodeTests
 
         private static List<string> sampleInput = new List<string>
         {
-            "............",
-            "........0...",
-            ".....0......",
-            ".......0....",
-            "....0.......",
-            "......A.....",
-            "............",
-            "............",
-            "........A...",
-            ".........A..",
-            "............",
-            "............",
+            "47|53",
+            "97|13",
+            "97|61",
+            "97|47",
+            "75|29",
+            "61|13",
+            "75|53",
+            "29|13",
+            "97|29",
+            "53|29",
+            "61|53",
+            "97|53",
+            "61|29",
+            "47|13",
+            "75|47",
+            "97|75",
+            "47|61",
+            "75|61",
+            "47|29",
+            "75|13",
+            "53|13",
+            "",
+            "75,47,61,53,29",
+            "97,61,53,29,13",
+            "75,29,13",
+            "75,97,47,61,53",
+            "61,13,29",
+            "97,13,75,29,47",
         };
 
         private static readonly object[] inputTestCasesPart1 =
@@ -35,7 +51,7 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput,
-                14
+                143
             },
         };
 
@@ -44,7 +60,7 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput,
-                34
+                123
             },
         };
 

@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode._2024
 {
-    public class Day6 : IDay
+    public class Day06 : IDay
     {
         List<char> arrows = new List<char> { '^', '<', '>', 'v' };
 
