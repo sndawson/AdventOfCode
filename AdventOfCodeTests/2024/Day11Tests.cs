@@ -51,20 +51,23 @@ namespace AdventOfCodeTests
             new object[]
             {
                 sampleInput2,
-                0
+                75,
+                65601038650482
             },
         };
 
         [TestCaseSource("inputTestCasesPart1")]
-        public void TestPart1(List<string> input, int blinks, int solution)
+        public void TestPart1(List<string> input, int blinks, long solution)
         {
             Assert.AreEqual(solution, day.Part1(input, blinks));
         }
 
         [TestCaseSource("inputTestCasesPart2")]
-        public void TestPart2(List<string> input, int solution)
+        public void TestPart2(List<string> input, int blinks, long solution)
         {
-            Assert.AreEqual(solution, day.Part2(input));
+            // get a fresh instance of the day class since it has a cache now
+            var localDay = new Day11();
+            Assert.AreEqual(solution, localDay.Part2(input, blinks));
         }
     }
 }

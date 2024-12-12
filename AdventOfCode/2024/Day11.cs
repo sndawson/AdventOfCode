@@ -7,7 +7,7 @@
             return (int)Part1(input, 25);
         }
 
-        public static long Part1(List<string> input, int blinks)
+        public long Part1(List<string> input, int blinks)
         {
             // input should be one line
             var initialStones = input[0];
@@ -48,9 +48,75 @@
 
         public int Part2(List<string> input)
         {
-            var result = Part1(input, 75);
-            Console.WriteLine(result);
-            return (int)result;
+            return (int)Part2(input, 75);
+        }
+
+        public long Part2(List<string> input, int blinks)
+        {
+            // input should be one line
+            var initialStones = input[0];
+
+            var stones = initialStones.Split(' ').ToList();
+
+            long totalStones = 0;
+            foreach (var stone in stones)
+            {
+                totalStones += GetNumberOfStones(stone, blinks, 1);
+            }
+            
+            Console.WriteLine(totalStones);
+            return totalStones;
+        }
+
+        // (stone, iteration), number of stones at 75
+        private Dictionary<(string, int), long> stoneCache = new Dictionary<(string, int), long>();
+
+        private long GetNumberOfStones(string input, int maxIterations, int currentIteration)
+        {
+            var stones = PerformTransformation(input);
+            if (currentIteration == maxIterations)
+            {
+                return stones.Count;
+            }
+
+            long totalStonesCount = 0;
+            foreach (var stone in stones)
+            {
+                if (stoneCache.ContainsKey((stone, currentIteration)))
+                {
+                    totalStonesCount += stoneCache[(stone, currentIteration)];
+                }
+                else
+                {
+                    var numberOfStones = GetNumberOfStones(stone, maxIterations, currentIteration + 1);
+                    totalStonesCount += numberOfStones;
+                    stoneCache.Add((stone, currentIteration), numberOfStones);
+                }
+            }
+
+            return totalStonesCount;
+        }
+
+        private List<string> PerformTransformation(string stone)
+        {
+            var stones = new List<string>();
+            if (stone == "0")
+            {
+                stones.Add("1");
+            }
+            else if (stone.Length % 2 == 0)
+            {
+                var firstNewStone = stone.Substring(0, stone.Length / 2);
+                var secondNewStone = long.Parse(stone.Substring(stone.Length / 2, stone.Length / 2)).ToString();
+                stones.Add(firstNewStone);
+                stones.Add(secondNewStone);
+            }
+            else
+            {
+                var stoneValue = long.Parse(stone);
+                stones.Add((stoneValue * 2024).ToString());
+            }
+            return stones;
         }
 
     }
