@@ -60,7 +60,7 @@ namespace AdventOfCode
 
         static int GetDay()
         {
-            Console.WriteLine("Enter the number of the day of the challenge (ex. 1):");
+            Console.WriteLine("Enter the number of the day of the challenge (ex. 01):");
             var dayStr = @"" + Console.ReadLine();
             int day;
             if (int.TryParse(dayStr, out day))
