@@ -19,11 +19,7 @@ namespace AdventOfCode._2024
             // then calculate board location for each robot after required seconds have elapsed
             foreach (var robot in robots)
             {
-                var position = robot.position;
-                var velocity = robot.velocity;
-                var newX = position.Item1 + (velocity.Item1 * seconds);
-                var newY = position.Item2 + (velocity.Item2 * seconds);
-                var newPosition = (mod(newX, width), mod(newY, height));
+                var newPosition = CalculateNewPosition(robot, width, height, seconds);
                 robot.position = newPosition;
             }
             PrintBoard(robots, width, height);
@@ -82,11 +78,7 @@ namespace AdventOfCode._2024
             while (i < 10000) {
                 foreach (var robot in robots)
                 {
-                    var position = robot.position;
-                    var velocity = robot.velocity;
-                    var newX = position.Item1 + velocity.Item1;
-                    var newY = position.Item2 + velocity.Item2;
-                    var newPosition = (mod(newX, width), mod(newY, height));
+                    var newPosition = CalculateNewPosition(robot, width, height);
                     robot.position = newPosition;
                 }
                 PrintLine($"{i}:", sw);
@@ -111,6 +103,16 @@ namespace AdventOfCode._2024
                 robots.Add(robot);
             }
             return robots;
+        }
+
+        private (int,int) CalculateNewPosition(Robot robot, int width, int height, int seconds = 1)
+        {
+            var position = robot.position;
+            var velocity = robot.velocity;
+            var newX = position.Item1 + (velocity.Item1 * seconds);
+            var newY = position.Item2 + (velocity.Item2 * seconds);
+            var newPosition = (mod(newX, width), mod(newY, height));
+            return newPosition;
         }
 
         private int mod(int a, int b)
