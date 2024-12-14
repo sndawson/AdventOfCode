@@ -13,17 +13,7 @@ namespace AdventOfCode._2024
         public int Part1(List<string> input, int width, int height, int seconds)
         {
             // first parse
-            var robots = new List<Robot>();
-            foreach (var line in input)
-            {
-                var matches = Regex.Matches(line, @"(-?\d+)");
-                var pX = int.Parse(matches[0].Value);
-                var pY = int.Parse(matches[1].Value);
-                var vX = int.Parse(matches[2].Value);
-                var vY = int.Parse(matches[3].Value);
-                var robot = new Robot((pX,pY), (vX, vY));
-                robots.Add(robot);
-            }
+            var robots = ParseRobots(input);
             PrintBoard(robots, width, height);
 
             // then calculate board location for each robot after required seconds have elapsed
@@ -31,8 +21,8 @@ namespace AdventOfCode._2024
             {
                 var position = robot.position;
                 var velocity = robot.velocity;
-                var newX = (position.Item1 + (velocity.Item1 * seconds));
-                var newY = (position.Item2 + (velocity.Item2 * seconds));
+                var newX = position.Item1 + (velocity.Item1 * seconds);
+                var newY = position.Item2 + (velocity.Item2 * seconds);
                 var newPosition = (mod(newX, width), mod(newY, height));
                 robot.position = newPosition;
             }
@@ -76,7 +66,51 @@ namespace AdventOfCode._2024
 
         public int Part2(List<string> input)
         {
-            return 0;
+            return Part2(input, 101, 103);
+        }
+
+        public int Part2(List<string> input, int width, int height)
+        {
+            // first parse
+            var robots = ParseRobots(input);
+            PrintBoard(robots, width, height);
+
+            // then calculate board location for each robot after each second
+            var i = 0;
+            var secondsForChristmasTree = 0;
+            using StreamWriter sw = File.CreateText($"C:\\Users\\Shawna\\Documents\\Programming\\Coding Challenges\\AdventOfCode\\AdventOfCode\\2024\\InputFiles\\day14-findtrees2.txt");
+            while (i < 10000) {
+                foreach (var robot in robots)
+                {
+                    var position = robot.position;
+                    var velocity = robot.velocity;
+                    var newX = position.Item1 + velocity.Item1;
+                    var newY = position.Item2 + velocity.Item2;
+                    var newPosition = (mod(newX, width), mod(newY, height));
+                    robot.position = newPosition;
+                }
+                PrintLine($"{i}:", sw);
+                PrintBoard(robots, width, height, sw);
+                i++;
+            }
+
+            return secondsForChristmasTree;
+        }
+
+        private List<Robot> ParseRobots(List<string> input)
+        {
+            var robots = new List<Robot>();
+            foreach (var line in input)
+            {
+                var matches = Regex.Matches(line, @"(-?\d+)");
+                var pX = int.Parse(matches[0].Value);
+                var pY = int.Parse(matches[1].Value);
+                var vX = int.Parse(matches[2].Value);
+                var vY = int.Parse(matches[3].Value);
+                var robot = new Robot((pX, pY), (vX, vY));
+                robots.Add(robot);
+            }
+            return robots;
         }
 
         private int mod(int a, int b)
@@ -91,7 +125,12 @@ namespace AdventOfCode._2024
 
         private void PrintBoard(List<Robot> robots, int width, int height)
         {
-            Console.WriteLine("Board:");
+            PrintBoard(robots, width, height, null);
+        }
+
+        private void PrintBoard(List<Robot> robots, int width, int height, StreamWriter? sw)
+        {
+            PrintLine("Board:", sw);
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -99,14 +138,38 @@ namespace AdventOfCode._2024
                     var robotsAtPos = robots.Count(x => x.position == (j, i));
                     if (robotsAtPos > 0)
                     {
-                        Console.Write(robotsAtPos);
+                        Print(robotsAtPos.ToString(), sw);
                     }
                     else
                     {
-                        Console.Write('.');
+                        Print(".", sw);
                     }
                 }
-                Console.WriteLine();
+                PrintLine("", sw);
+            }
+        }
+
+        private void Print(string line, StreamWriter? sw)
+        {
+            if (sw == null)
+            {
+                Console.Write(line);
+            }
+            else
+            {
+                sw.Write(line);
+            }
+        }
+
+        private void PrintLine(string line, StreamWriter? sw)
+        {
+            if (sw == null)
+            {
+                Console.WriteLine(line);
+            }
+            else
+            {
+                sw.WriteLine(line);
             }
         }
     }
