@@ -200,7 +200,7 @@
             var currentCharValue = mapCopy[currentPos.Item1][currentPos.Item2];
             var newPos = (currentPos.Item1 + moveValue.Item1, currentPos.Item2 + moveValue.Item2);
             var mapAtNewPos = mapCopy[newPos.Item1][newPos.Item2];
-            switch (mapAtNewPos)
+            switch (mapAtNewPos) // pure spaghetti
             {
                 case blankChar:
                     mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
@@ -209,13 +209,17 @@
                 case wallChar:
                     return (currentPos, mapCopy);
                 case boxCharLeft:
-                    var temp = TryToMoveCharScaledUp(mapCopy, newPos, moveValue);
-                    var newBoxPosLeft = temp.Item1;
                     var newPosRight = (newPos.Item1, newPos.Item2 + 1);
-                    
-                    temp = TryToMoveCharScaledUp(temp.Item2, newPosRight, moveValue);
+                    var temp = TryToMoveCharScaledUp(mapCopy, newPosRight, moveValue);
                     var newBoxPosRight = temp.Item1;
-                    if (newBoxPosLeft != newPos && newBoxPosRight != newPosRight)
+                    if (newBoxPosRight == newPosRight)
+                    {
+                        return (currentPos, mapCopy);
+                    } 
+
+                    temp = TryToMoveCharScaledUp(temp.Item2, newPos, moveValue);
+                    var newBoxPosLeft = temp.Item1;
+                    if (newBoxPosLeft != newPos)
                     {
                         mapCopy = temp.Item2;
                         mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
@@ -230,10 +234,14 @@
                     var newPosLeft = (newPos.Item1, newPos.Item2 - 1);
                     temp = TryToMoveCharScaledUp(mapCopy, newPosLeft, moveValue);
                     newBoxPosLeft = temp.Item1;
+                    if (newBoxPosLeft == newPosLeft)
+                    {
+                        return (currentPos, mapCopy);
+                    }
 
                     temp = TryToMoveCharScaledUp(temp.Item2, newPos, moveValue);
                     newBoxPosRight = temp.Item1;
-                    if (newBoxPosLeft != newPos && newBoxPosRight != newPos)
+                    if (newBoxPosRight != newPos)
                     {
                         mapCopy = temp.Item2;
                         mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
