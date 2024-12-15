@@ -71,8 +71,8 @@ namespace AdventOfCodeTests
         {
             new object[]
             {
-                sampleInput2,
-                0
+                sampleInput1,
+                9021
             },
         };
 
