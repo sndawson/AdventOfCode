@@ -12,7 +12,6 @@
 
         public int Part1(List<string> input)
         {
-            return -1;
             var map = new List<List<char>>();
             var parseMoves = false;
             var moves = "";
@@ -43,30 +42,7 @@
             }
             PrintMap(map);
 
-            // run simulation
-            foreach (var move in moves)
-            {
-                (int,int) moveValue;
-                switch (move)
-                {
-                    case '^':
-                        moveValue = (-1, 0);
-                        break;
-                    case 'v':
-                        moveValue = (1, 0);
-                        break;
-                    case '<':
-                        moveValue = (0, -1);
-                        break;
-                    case '>':
-                        moveValue = (0, 1);
-                        break;
-                    default:
-                        throw new Exception("Invalid move");
-                }
-                var newRobotPos = TryToMoveChar(map, robot, moveValue);
-                robot = newRobotPos;  
-            }
+            map = RunSimulation(map, moves, robot);
             PrintMap(map);
 
             var gpsCoordsSum = CalculateSumOfGPSCoords(map, boxChar);
@@ -117,32 +93,7 @@
             }
             PrintMap(map);
 
-            // run simulation
-            foreach (var move in moves)
-            {
-                (int, int) moveValue;
-                switch (move)
-                {
-                    case '^':
-                        moveValue = (-1, 0);
-                        break;
-                    case 'v':
-                        moveValue = (1, 0);
-                        break;
-                    case '<':
-                        moveValue = (0, -1);
-                        break;
-                    case '>':
-                        moveValue = (0, 1);
-                        break;
-                    default:
-                        throw new Exception("Invalid move");
-                }
-                var temp = TryToMoveCharScaledUp(map, robot, moveValue);
-                var newRobotPos = temp.Item1;
-                map = temp.Item2;
-                robot = newRobotPos;
-            }
+            map = RunSimulation(map, moves, robot);
             PrintMap(map);
 
             var gpsCoordsSum = CalculateSumOfGPSCoords(map, boxCharLeft);
@@ -150,7 +101,7 @@
             return gpsCoordsSum;
         }
 
-        private void PrintMap(List<List<char>> map)
+        private static void PrintMap(List<List<char>> map)
         {
             Console.WriteLine("Map:");
             for (int i = 0; i < map.Count; i++)
@@ -163,101 +114,88 @@
             }
         }
 
-        private (int,int) TryToMoveChar(List<List<char>> map, (int,int) currentPos, (int,int) moveValue)
+        private List<List<char>> RunSimulation(List<List<char>> map, string moves, (int,int) robot)
         {
-            var currentCharValue = map[currentPos.Item1][currentPos.Item2];
+            foreach (var move in moves)
+            {
+                var moveValue = move switch
+                {
+                    '^' => (-1, 0),
+                    'v' => (1, 0),
+                    '<' => (0, -1),
+                    '>' => (0, 1),
+                    _ => throw new Exception("Invalid move"),
+                };
+                var result = TryToMoveChar(map, robot, moveValue);
+                robot = result.Item1;
+                map = result.Item2;
+            }
+            return map;
+        }
+
+        private ((int, int), List<List<char>>) TryToMoveChar(List<List<char>> map, (int, int) currentPos, (int, int) moveValue)
+        {
+            var mapCopy = DeepCopyMap(map);
+
             var newPos = (currentPos.Item1 + moveValue.Item1, currentPos.Item2 + moveValue.Item2);
-            var mapAtNewPos = map[newPos.Item1][newPos.Item2];
+            var mapAtNewPos = mapCopy[newPos.Item1][newPos.Item2];
             switch (mapAtNewPos)
             {
                 case blankChar:
-                    map[newPos.Item1][newPos.Item2] = currentCharValue;
-                    map[currentPos.Item1][currentPos.Item2] = blankChar;
-                    return newPos;
-                case wallChar:
-                    return currentPos;
-                case boxChar:
-                    // TODO: DRY
-                    var newBoxPos = TryToMoveChar(map, newPos, moveValue);
-                    if (newBoxPos != newPos)
-                    {
-                        map[newPos.Item1][newPos.Item2] = currentCharValue;
-                        map[currentPos.Item1][currentPos.Item2] = blankChar;
-                        return newPos;
-                    }
-                    else
-                    {
-                        return currentPos;
-                    }
-                default:
-                    throw new Exception("Invalid map char");
-            }
-        }
-
-        private ((int, int), List<List<char>>) TryToMoveCharScaledUp(List<List<char>> map, (int, int) currentPos, (int, int) moveValue)
-        {
-            var mapCopy = DeepCopyMap(map);
-            var currentCharValue = mapCopy[currentPos.Item1][currentPos.Item2];
-            var newPos = (currentPos.Item1 + moveValue.Item1, currentPos.Item2 + moveValue.Item2);
-            var mapAtNewPos = mapCopy[newPos.Item1][newPos.Item2];
-            switch (mapAtNewPos) // pure spaghetti
-            {
-                case blankChar:
-                    mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
-                    mapCopy[currentPos.Item1][currentPos.Item2] = blankChar;
-                    return (newPos, mapCopy);
+                    return (MoveChar(mapCopy, currentPos, newPos), mapCopy);
                 case wallChar:
                     return (currentPos, mapCopy);
+                case boxChar:
+                    var result = TryToMoveChar(mapCopy, newPos, moveValue);
+                    if (result.Item1 != newPos)
+                    {
+                        mapCopy = result.Item2;
+                        return (MoveChar(mapCopy, currentPos, newPos), mapCopy);
+                    }
+                    else
+                    {
+                        return (currentPos, mapCopy);
+                    }
                 case boxCharLeft:
                     var newPosRight = (newPos.Item1, newPos.Item2 + 1);
-                    var temp = TryToMoveCharScaledUp(mapCopy, newPosRight, moveValue);
-                    var newBoxPosRight = temp.Item1;
-                    if (newBoxPosRight == newPosRight)
-                    {
-                        return (currentPos, mapCopy);
-                    } 
-
-                    temp = TryToMoveCharScaledUp(temp.Item2, newPos, moveValue);
-                    var newBoxPosLeft = temp.Item1;
-                    if (newBoxPosLeft != newPos)
-                    {
-                        mapCopy = temp.Item2;
-                        mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
-                        mapCopy[currentPos.Item1][currentPos.Item2] = blankChar;
-                        return (newPos, mapCopy);
-                    }
-                    else
-                    {
-                        return (currentPos, mapCopy);
-                    }
+                    return TryToMoveBigBox(mapCopy, currentPos, newPosRight, newPos, moveValue);
                 case boxCharRight:
                     var newPosLeft = (newPos.Item1, newPos.Item2 - 1);
-                    temp = TryToMoveCharScaledUp(mapCopy, newPosLeft, moveValue);
-                    newBoxPosLeft = temp.Item1;
-                    if (newBoxPosLeft == newPosLeft)
-                    {
-                        return (currentPos, mapCopy);
-                    }
-
-                    temp = TryToMoveCharScaledUp(temp.Item2, newPos, moveValue);
-                    newBoxPosRight = temp.Item1;
-                    if (newBoxPosRight != newPos)
-                    {
-                        mapCopy = temp.Item2;
-                        mapCopy[newPos.Item1][newPos.Item2] = currentCharValue;
-                        mapCopy[currentPos.Item1][currentPos.Item2] = blankChar;
-                        return (newPos, mapCopy);
-                    }
-                    else
-                    {
-                        return (currentPos, mapCopy);
-                    }
+                    return TryToMoveBigBox(mapCopy, currentPos, newPosLeft, newPos, moveValue);
                 default:
                     throw new Exception("Invalid map char");
             }
         }
 
-        private List<List<char>> DeepCopyMap(List<List<char>> map)
+        private static (int,int) MoveChar(List<List<char>> map, (int,int) currentPos, (int,int) newPos)
+        {
+            var currentCharValue = map[currentPos.Item1][currentPos.Item2];
+            map[newPos.Item1][newPos.Item2] = currentCharValue;
+            map[currentPos.Item1][currentPos.Item2] = blankChar;
+            return newPos;
+        }
+
+        private ((int, int), List<List<char>>) TryToMoveBigBox(List<List<char>> map, (int, int) currentPos, (int,int) newPosFirst, (int,int) newPosSecond, (int, int) moveValue)
+        {
+            var result = TryToMoveChar(map, newPosFirst, moveValue);
+            if (result.Item1 == newPosFirst)
+            {
+                return (currentPos, map);
+            }
+
+            result = TryToMoveChar(result.Item2, newPosSecond, moveValue);
+            if (result.Item1 != newPosSecond)
+            {
+                map = result.Item2;
+                return (MoveChar(map, currentPos, newPosSecond), map);
+            }
+            else
+            {
+                return (currentPos, map);
+            }
+        }
+
+        private static List<List<char>> DeepCopyMap(List<List<char>> map)
         {
             var listCopy = new List<List<char>>();
             for (int i = 0; i < map.Count; i++)
@@ -271,7 +209,7 @@
             return listCopy;
         }
 
-        private int CalculateSumOfGPSCoords(List<List<char>> map, char charToCount)
+        private static int CalculateSumOfGPSCoords(List<List<char>> map, char charToCount)
         {
             var gpsCoordsSum = 0;
             for (int i = 0; i < map.Count; i++)
